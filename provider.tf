@@ -9,9 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = var.tfstate_bucket
     key    = path.root
-    region = var.AWS_DEFAULT_REGION
   }
 }
 

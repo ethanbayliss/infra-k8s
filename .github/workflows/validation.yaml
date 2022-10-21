@@ -1,4 +1,4 @@
-name: 'Terraform - Dev Check'
+name: 'Terraform - Validation'
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
   terraform-check:
     runs-on: ubuntu-latest
     name: Terraform
-    environment: dev 
+    environment: dev
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,7 +31,7 @@ jobs:
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
     - name: Set tfstate_bucket env var
-      run: echo "TF_VAR_tfstate_bucket=terraform-$(aws sts get-caller-identity | jq -r '.Account')" >> $GITHUB_ENV
+      run: echo "tfstate_bucket=terraform-$(aws sts get-caller-identity | jq -r '.Account')" >> $GITHUB_ENV
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
@@ -45,7 +45,10 @@ jobs:
 
     - name: Terraform Init
       id: init
-      run: terraform init
+      run: |
+        terraform init \
+          -backend-config "bucket=$tfstate_bucket" \ 
+          -backend-config "region=$TF_VAR_AWS_DEFAULT_REGION"
 
     - name: Terraform Validate
       id: validate
