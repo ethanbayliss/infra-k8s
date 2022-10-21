@@ -1,9 +1,6 @@
-name: 'Terraform - Validation'
+name: Terraform Testing
 
 on:
-  push:
-    branches:
-    - main
   pull_request:
 
 permissions:
@@ -11,16 +8,19 @@ permissions:
   pull-requests: write
 
 jobs: 
-  terraform-check:
+  terraform-validation:
     runs-on: ubuntu-latest
-    name: Terraform
-    environment: dev
+    name: Terraform - Planning
+    environment: ${{ matrix.environment }}
+    strategy:
+      matrix: 
+        environment: [dev, prod]
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      TF_VAR_env: ${{ secrets.ENV }}
+      TF_VAR_env: ${{ matrix.environment }}
       TF_VAR_name: ${{ github.event.repository.name }}
     steps:
     - uses: actions/checkout@v3
@@ -72,7 +72,7 @@ jobs:
             issue_number: context.issue.number,
           })
           const botComment = comments.find(comment => {
-            return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
+            return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style 🖌') && comment.body.includes('Environment: ${{ matrix.environment }}')
           })
 
           // 2. Prepare format of the comment
@@ -115,4 +115,5 @@ jobs:
               body: output
             })
           }
+
     
