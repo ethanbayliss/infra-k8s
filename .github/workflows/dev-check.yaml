@@ -1,4 +1,4 @@
-name: 'Terraform - Dev'
+name: 'Terraform - Dev Check'
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs: 
-  terraform:
+  terraform-check:
     runs-on: ubuntu-latest
     name: Terraform
     environment: dev 
@@ -24,6 +24,12 @@ jobs:
       TF_VAR_name: ${{ github.event.repository.name }}
     steps:
     - uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+
+    - name: Set tfstate_bucket env var
+      run: echo "TF_VAR_tfstate_bucket=terraform-$(aws sts get-caller-identity | jq -r '.Account')" >> $GITHUB_ENV
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
@@ -47,10 +53,6 @@ jobs:
       id: plan
       run: terraform plan -input=false -no-color
       continue-on-error: false
-
-    # - name: Terraform Apply
-    #   id: apply
-    #   run: terraform apply -auto-approve
     
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'

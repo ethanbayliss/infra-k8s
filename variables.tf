@@ -7,3 +7,6 @@ variable "env" {
 
 variable "name" {
 }
+
+variable "tfstate_bucket" {
+}

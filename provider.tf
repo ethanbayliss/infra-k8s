@@ -7,6 +7,12 @@ terraform {
       version = "~> 4.36.0"
     }
   }
+
+  backend "s3" {
+    bucket = var.tfstate_bucket
+    key    = path.root
+    region = var.AWS_DEFAULT_REGION
+  }
 }
 
 provider "aws" {
