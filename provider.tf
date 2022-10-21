@@ -8,9 +8,7 @@ terraform {
     }
   }
 
-  backend "s3" {
-    key    = path.root
-  }
+  backend "s3" {}
 }
 
 provider "aws" {
