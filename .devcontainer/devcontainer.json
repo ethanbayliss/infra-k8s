@@ -1,0 +1,21 @@
+// For format details, see https://aka.ms/devcontainer.json
+{
+	"name": "Terraform",
+	"workspaceFolder": "/workspace",
+
+	"build": { 
+		"context": "..",
+		"dockerfile": "Dockerfile"
+	},
+
+	// Configure tool-specific properties.
+	"customizations": {
+	},
+
+	"remoteUser": "vscode",
+	"features": {
+		"ghcr.io/devcontainers/features/terraform:1": {"version": "latest"},
+		"ghcr.io/devcontainers/features/github-cli:1": {"version": "latest"},
+		"ghcr.io/devcontainers/features/aws-cli:1": {"version": "latest"}
+	}
+}

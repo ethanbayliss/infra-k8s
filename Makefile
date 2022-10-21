@@ -1,4 +1,6 @@
-.DEFAULT_GOAL := upload_access_keys
+.DEFAULT_GOAL := upload_access_keys_dev
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
 test_github_cli:
 	@gh --version
@@ -20,15 +22,21 @@ auth_to_member_account: confirm_aws_account
 	@aws configure sso
 
 create_service_account: auth_to_member_account
-	@aws iam create-user --user-name "service.$${PWD##*/}.deployer" 
+	@aws iam create-user --user-name "service.$(current_dir).deployer" 
 
 attach_service_account_policy: create_service_account 
-	@aws iam put-user-policy --user-name "service.$${PWD##*/}.deployer" --policy-name deployer-policy --policy-document file://deployer-policy.json
+	@aws iam put-user-policy --user-name "service.$(current_dir).deployer" --policy-name deployer-policy --policy-document file://deployer-policy.json
 
-upload_access_keys: test_github_cli attach_service_account_policy
-  @key=$$(aws iam create-access-key --user-name "service.$${PWD##*/}.deployer") \
-	unset GITHUB_TOKEN \
-	gh auth login \
-	gh secret set AWS_ACCESS_KEY_ID -e dev --body "$(echo $key | jq -r '.AccessKey.AccessKeyId')" \
-	gh secret set AWS_SECRET_ACCESS_KEY -e dev --body "$(echo $key | jq -r '.AccessKey.SecretAccessKey')" \
+upload_access_keys_dev: test_github_cli attach_service_account_policy
+	key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer") \
+	gh auth login; \
+	echo $$key | jq -r '.AccessKey.AccessKeyId' | gh secret set AWS_ACCESS_KEY_ID --env dev; \
+	echo $$key | jq -r '.AccessKey.SecretAccessKey' | gh secret set AWS_SECRET_ACCESS_KEY --env dev;
+	@echo "Done"
+
+upload_access_keys_prod: test_github_cli attach_service_account_policy
+	key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer") \
+	gh auth login; \
+	echo $$key | jq -r '.AccessKey.AccessKeyId' | gh secret set AWS_ACCESS_KEY_ID --env prod; \
+	echo $$key | jq -r '.AccessKey.SecretAccessKey' | gh secret set AWS_SECRET_ACCESS_KEY --env prod;
 	@echo "Done"
