@@ -20,6 +20,7 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_env: ${{ secrets.ENV }}
+      TF_VAR_name: ${{ github.event.repository.name }}
     steps:
     - uses: actions/checkout@v3
 

@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
 
-  name = local.name
+  name = var.name
   cidr = "10.0.0.0/16"
 
   azs              = ["${var.AWS_DEFAULT_REGION}a", "${var.AWS_DEFAULT_REGION}b", "${var.AWS_DEFAULT_REGION}c"]
@@ -23,9 +23,9 @@ module "vpc" {
   manage_default_network_acl    = true
   manage_default_route_table    = true
   manage_default_security_group = true
-  default_network_acl_tags      = { Name = "${local.name}-default" }
-  default_route_table_tags      = { Name = "${local.name}-default" }
-  default_security_group_tags   = { Name = "${local.name}-default" }
+  default_network_acl_tags      = { Name = "${var.name}-default" }
+  default_route_table_tags      = { Name = "${var.name}-default" }
+  default_security_group_tags   = { Name = "${var.name}-default" }
 
   public_subnet_tags = {
     "kubernetes.io/role/elb"              = 1

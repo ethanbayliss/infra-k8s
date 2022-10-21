@@ -10,3 +10,6 @@ variable "AWS_DEFAULT_REGION" {
 
 variable "env" {
 }
+
+variable "name" {
+}
