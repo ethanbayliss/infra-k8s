@@ -28,15 +28,13 @@ attach_service_account_policy: create_service_account
 	@aws iam put-user-policy --user-name "service.$(current_dir).deployer" --policy-name deployer-policy --policy-document file://deployer-policy.json
 
 upload_access_keys_dev: test_github_cli attach_service_account_policy
-	key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer") \
-	gh auth login; \
+	key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer"); \
 	echo $$key | jq -r '.AccessKey.AccessKeyId' | gh secret set AWS_ACCESS_KEY_ID --env dev; \
 	echo $$key | jq -r '.AccessKey.SecretAccessKey' | gh secret set AWS_SECRET_ACCESS_KEY --env dev;
 	@echo "Done"
 
 upload_access_keys_prod: test_github_cli attach_service_account_policy
-	key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer") \
-	gh auth login; \
+	key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer"); \
 	echo $$key | jq -r '.AccessKey.AccessKeyId' | gh secret set AWS_ACCESS_KEY_ID --env prod; \
 	echo $$key | jq -r '.AccessKey.SecretAccessKey' | gh secret set AWS_SECRET_ACCESS_KEY --env prod;
 	@echo "Done"
