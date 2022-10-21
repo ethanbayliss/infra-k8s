@@ -78,6 +78,7 @@ jobs:
 
           // 2. Prepare format of the comment
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          Environment: ${{ matrix.environment }}
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
           <details><summary>Validation Output</summary>
