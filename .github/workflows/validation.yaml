@@ -47,7 +47,7 @@ jobs:
       id: init
       run: >
         terraform init \
-          -backend-config "bucket=$tfstate_bucket" \ 
+          -backend-config "bucket=$tfstate_bucket" \
           -backend-config "region=$TF_VAR_AWS_DEFAULT_REGION"
 
     - name: Terraform Validate
