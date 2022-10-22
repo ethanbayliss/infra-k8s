@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := upload_access_keys_dev
+.DEFAULT_GOAL := done_dev
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 unexport GITHUB_TOKEN
@@ -42,11 +42,19 @@ upload_access_keys_prod: test_github_cli attach_service_account_policy
 	@key=$$(aws iam create-access-key --user-name "service.$(current_dir).deployer"); \
 	echo $$key | jq -r '.AccessKey.AccessKeyId' | gh secret set AWS_ACCESS_KEY_ID --env prod; \
 	echo $$key | jq -r '.AccessKey.SecretAccessKey' | gh secret set AWS_SECRET_ACCESS_KEY --env prod;
-	@echo "Done"
 
-delete_service_account:
+delete_service_account: auth_to_member_account
 	@for key in $$(aws iam list-access-keys --user-name "service.$(current_dir).deployer" | jq -r '.AccessKeyMetadata[].AccessKeyId'); do \
 	aws iam delete-access-key --user-name "service.$(current_dir).deployer" --access-key-id $$key; \
 	done; \
 	aws iam delete-user-policy --user-name "service.$(current_dir).deployer" --policy-name deployer-policy 2>/dev/null; \
 	aws iam delete-user --user-name "service.$(current_dir).deployer" 2>/dev/null;
+
+# make_backend_bucket: auth_to_member_account
+# 	@aws s3api create-bucket --bucket "terraform-$$(aws sts get-caller-identity | jq -r '.Account')"
+
+done_dev: upload_access_keys_dev #make_backend_bucket 
+	@echo "Done"
+
+done_prod: upload_access_keys_prod #make_backend_bucket
+	@echo "Done"
