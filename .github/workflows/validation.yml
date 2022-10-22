@@ -23,7 +23,7 @@ jobs:
       matrix: 
         environment: [dev, prod]
     concurrency: 
-      group: ${{ inputs.environment }}
+      group: ${{ matrix.environment }}
       cancel-in-progress: false
 
     env:
