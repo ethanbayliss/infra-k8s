@@ -1,4 +1,4 @@
-name: Destroy Caller
+name: Terraform Destroy
 
 on:
   workflow_call:

@@ -1,4 +1,4 @@
-name: Deploy Caller
+name: Terraform Apply
 
 on:
   workflow_call:

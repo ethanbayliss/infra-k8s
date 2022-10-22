@@ -1,4 +1,4 @@
-name: Terraform Destroy
+name: Destroy Stack
 
 env:
   TERRAFORM_VERSION: latest
