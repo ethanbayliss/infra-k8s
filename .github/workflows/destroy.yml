@@ -1,32 +1,37 @@
-name: Terraform Destroy
-
-env:
-  TERRAFORM_VERSION: latest
+name: Destroy Caller
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       environment:
         description: 'Environment to destroy: '
         required: true
-        default: 'dev'
-        type: choice
-        options:
-        - dev
-        - prod
+        type: string
+      AWS_DEFAULT_REGION:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
 
-jobs: 
-  terraform-destruction:
+jobs:
+  terraform-deploy:
     runs-on: ubuntu-latest
-    name: Terraform - Destruction (${{ inputs.environment }})
-    environment: ${{ inputs.environment }}
+    name: Terraform - Applying (${{ inputs.environment }})
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      TF_VAR_AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+      TF_VAR_AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
       TF_VAR_env: ${{ inputs.environment }}
       TF_VAR_name: ${{ github.event.repository.name }}
+
+    concurrency: 
+      group: ${{ inputs.environment }}
+      cancel-in-progress: false
+    environment: ${{ inputs.environment }}
 
     steps:
     - uses: actions/checkout@v3
