@@ -9,6 +9,10 @@ module "eks_blueprints_kubernetes_addons" {
   # Wait on the `kube-system` profile before provisioning addons
   data_plane_wait_arn = module.eks_blueprints.fargate_profiles["kube_system"].eks_fargate_profile_arn
 
+  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/v4.13.1/modules/kubernetes-addons/argocd
+  enable_argocd = true
+  argocd_manage_add_ons = true
+
   #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/v4.13.1/modules/kubernetes-addons/fargate-fluentbit
   enable_fargate_fluentbit = true
 
@@ -24,9 +28,10 @@ module "eks_blueprints_kubernetes_addons" {
     most_recent = true
   }
 
-  enable_self_managed_coredns       = true
-  remove_default_coredns_deployment = true
-  self_managed_coredns_helm_config  = {
+  enable_self_managed_coredns                    = true
+  remove_default_coredns_deployment              = true
+  enable_coredns_cluster_proportional_autoscaler = true
+  self_managed_coredns_helm_config = {
     # Sets the correct annotations to ensure the Fargate provisioner is used and not the EC2 provisioner
     compute_type       = "fargate"
     kubernetes_version = module.eks_blueprints.eks_cluster_version
