@@ -15,7 +15,7 @@ permissions:
 jobs: 
   terraform-validation:
     runs-on: ubuntu-latest
-    name: Terraform - Planning
+    name: Terraform - Validation (${{ matrix.environment }})
     environment: ${{ matrix.environment }}
     strategy:
       matrix: 
