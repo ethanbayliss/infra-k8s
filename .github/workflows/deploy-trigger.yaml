@@ -12,9 +12,6 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to apply: '
-        required: true
-        default: 'dev'
         type: environment
 
 jobs: 
