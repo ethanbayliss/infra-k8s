@@ -36,18 +36,8 @@ module "eks_blueprints" {
       fargate_profile_name = "default"
       fargate_profile_namespaces = [
         {
-          namespace = "default"
+          namespace = "*"
         },
-      ]
-      subnet_ids = module.vpc.private_subnets
-    }
-    # Providing compute for kube-system namespace where core addons reside
-    kube_system = {
-      fargate_profile_name = "kube-system"
-      fargate_profile_namespaces = [
-        {
-          namespace = "kube-system"
-        }
       ]
       subnet_ids = module.vpc.private_subnets
     }
