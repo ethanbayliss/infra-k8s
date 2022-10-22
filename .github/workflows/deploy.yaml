@@ -1,7 +1,7 @@
 name: Terraform Deploy
 
 env:
-  TERRAFORM_VERSION: 1.32
+  TERRAFORM_VERSION: latest
 
 on:
   push:
