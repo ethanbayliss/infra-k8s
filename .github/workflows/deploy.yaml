@@ -1,9 +1,16 @@
 name: Terraform Deploy
 
+env:
+  TERRAFORM_VERSION: 1.33
+
 on:
   push:
     branches:
       - main
+
+concurrency: 
+  group: ${{ matrix.environment }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -41,6 +48,8 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
 
     - name: Terraform Init
       id: init

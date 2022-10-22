@@ -1,5 +1,8 @@
 name: Terraform Testing
 
+env:
+  TERRAFORM_VERSION: 1.33
+
 on:
   pull_request:
 
@@ -36,6 +39,8 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
 
     - name: Terraform Init
       id: init
