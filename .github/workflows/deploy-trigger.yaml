@@ -1,4 +1,4 @@
-name: Terraform Deploy
+name: Terraform Deployz
 
 env:
   TERRAFORM_VERSION: latest
@@ -12,7 +12,10 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        description: 'Environment to apply: '
+        required: true
         type: environment
+        default: dev
 
 jobs: 
   terraform-deploy:
