@@ -60,6 +60,15 @@ module "eks_blueprints" {
       ]
       subnet_ids = module.vpc.private_subnets
     }
+    apps = {
+      fargate_profile_name = "apps"
+      fargate_profile_namespaces = [
+        {
+          namespace = "app-*"
+        }
+      ]
+      subnet_ids = module.vpc.private_subnets
+    }
   }
 
   tags = local.tags
