@@ -1,0 +1,45 @@
+name: Terraform Destroy
+
+env:
+  TERRAFORM_VERSION: latest
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to destroy: '
+        required: true
+        type: choice
+        default: dev
+        options:
+        - dev
+        - prod
+        - all
+
+jobs:
+  terraform-destroy-dev:
+    if: inputs.environment == 'dev' || inputs.environment == 'all' || inputs.environment == ''
+
+    name: Trigger Destroying (dev)
+    uses: ./.github/workflows/destroy.yml
+
+    with:
+      environment: dev
+      AWS_DEFAULT_REGION: ap-southeast-2
+    secrets: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  terraform-destroy-prod:
+    if: inputs.environment == 'prod' || inputs.environment == 'all'
+
+    name: Trigger Destroying (prod)
+    uses: ./.github/workflows/destroy.yml
+
+    with:
+      environment: prod
+      AWS_DEFAULT_REGION: ap-southeast-2
+    secrets: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
