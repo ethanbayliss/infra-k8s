@@ -18,13 +18,12 @@ jobs:
     name: Terraform - Validation (${{ matrix.environment }})
     
     environment: ${{ matrix.environment }}
+    continue-on-error: true
     strategy:
       matrix: 
         environment: 
-          dev:
-            continue-on-error: true
-          prod:
-            continue-on-error: true
+        - dev
+        - prod
     concurrency: 
       group: ${{ matrix.environment }}
       cancel-in-progress: false
