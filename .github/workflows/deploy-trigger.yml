@@ -25,7 +25,6 @@ jobs:
   terraform-deploy-dev:
     name: Terraform - Applying (prod)
     uses: ./.github/workflows/deploy.yml
-    environment: dev
 
     with:
       environment: dev
@@ -37,7 +36,6 @@ jobs:
   terraform-deploy-prod:
     name: Terraform - Applying (prod)
     uses: ./.github/workflows/deploy.yml
-    environment: prod
     needs: terraform-deploy-dev
 
     with:
