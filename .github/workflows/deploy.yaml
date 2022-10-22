@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+strategy:
+  matrix: 
+    environment: [dev]
+    #environment: [dev, prod]
 concurrency: 
   group: ${{ matrix.environment }}
   cancel-in-progress: false
@@ -17,10 +21,6 @@ jobs:
   terraform-validation:
     runs-on: ubuntu-latest
     name: Terraform - Applying
-    strategy:
-      matrix: 
-        environment: [dev]
-        #environment: [dev, prod]
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
