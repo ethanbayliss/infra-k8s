@@ -6,8 +6,8 @@ module "eks_blueprints_kubernetes_addons" {
   eks_oidc_provider    = module.eks_blueprints.oidc_provider
   eks_cluster_version  = module.eks_blueprints.eks_cluster_version
 
-  # Wait on the fargate profile before provisioning addons
-  data_plane_wait_arn = module.eks_blueprints.fargate_profiles["default"].eks_fargate_profile_arn
+  # Wait on the `kube-system` profile before provisioning addons
+  data_plane_wait_arn = module.eks_blueprints.fargate_profiles["kube_system"].eks_fargate_profile_arn
 
   #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/v4.13.1/modules/kubernetes-addons/argocd
   enable_argocd = true
