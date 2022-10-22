@@ -34,6 +34,7 @@ jobs:
       TF_VAR_AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_env: ${{ matrix.environment }}
       TF_VAR_name: ${{ github.event.repository.name }}
+      TF_VAR_admin_role_arn: ${{ secrets.TF_VAR_ADMIN_ROLE_ARN }}
       
     steps:
     - uses: actions/checkout@v3
