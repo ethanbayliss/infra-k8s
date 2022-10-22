@@ -14,7 +14,7 @@ on:
       environment:
         description: 'Environment to apply: '
         required: true
-        type: string
+        type: choice
         default: dev
         options:
         - dev
