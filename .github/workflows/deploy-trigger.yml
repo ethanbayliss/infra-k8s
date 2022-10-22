@@ -4,17 +4,17 @@ env:
   TERRAFORM_VERSION: latest
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - '**.tf'
+  push:
+    branches:
+      - main
+    paths:
+      - '**.tf'
   workflow_dispatch:
     inputs:
       environment:
         description: 'Environment to apply: '
         required: true
-        type: environment
+        type: string
         default: dev
         options:
         - dev
@@ -23,6 +23,8 @@ on:
 
 jobs:
   terraform-deploy-dev:
+    if: inputs.environment == 'dev' || inputs.environment == 'all' || inputs.environment == ''
+
     name: Trigger Applying (dev)
     uses: ./.github/workflows/deploy.yml
 
@@ -33,14 +35,15 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  # terraform-deploy-prod:
-  #   name: Trigger Applying (prod)
-  #   uses: ./.github/workflows/deploy.yml
-  #   needs: terraform-deploy-dev
+  terraform-deploy-prod:
+    if: inputs.environment == 'prod' || inputs.environment == 'all'
 
-  #   with:
-  #     environment: dev
-  #     AWS_DEFAULT_REGION: ap-southeast-2
-  #   # secrets: 
-  #   #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #   #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    name: Trigger Applying (prod)
+    uses: ./.github/workflows/deploy.yml
+
+    with:
+      environment: prod
+      AWS_DEFAULT_REGION: ap-southeast-2
+    secrets: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
