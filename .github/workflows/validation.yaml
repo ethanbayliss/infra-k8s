@@ -1,7 +1,7 @@
 name: Terraform Testing
 
 env:
-  TERRAFORM_VERSION: 1.33
+  TERRAFORM_VERSION: 1.32
 
 on:
   pull_request:
