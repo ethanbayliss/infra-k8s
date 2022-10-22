@@ -1,5 +1,5 @@
 module "eks_blueprints_kubernetes_addons" {
-  source = "git::https://github.com/aws-ia/terraform-aws-eks-blueprints.git//modules/kubernetes-addons?ref=ac614b5a079055f9b18926597c55e8c6c9425263"
+  source = "git::https://github.com/aws-ia/terraform-aws-eks-blueprints.git//modules/kubernetes-addons?ref=v4.13.1"
 
   eks_cluster_id       = module.eks_blueprints.eks_cluster_id
   eks_cluster_endpoint = module.eks_blueprints.eks_cluster_endpoint
@@ -9,16 +9,16 @@ module "eks_blueprints_kubernetes_addons" {
   # Wait on the `kube-system` profile before provisioning addons
   data_plane_wait_arn = module.eks_blueprints.fargate_profiles["kube_system"].eks_fargate_profile_arn
 
-  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/ac614b5a079055f9b18926597c55e8c6c9425263/modules/kubernetes-addons/fargate-fluentbit
+  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/v4.13.1/modules/kubernetes-addons/fargate-fluentbit
   enable_fargate_fluentbit = true
 
-  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/ac614b5a079055f9b18926597c55e8c6c9425263/modules/kubernetes-addons/aws-vpc-cni
+  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/v4.13.1/modules/kubernetes-addons/aws-vpc-cni
   enable_amazon_eks_vpc_cni = true
   amazon_eks_vpc_cni_config = {
     most_recent = true
   }
 
-  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/ac614b5a079055f9b18926597c55e8c6c9425263/modules/kubernetes-addons/aws-kube-proxy
+  #https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/v4.13.1/modules/kubernetes-addons/aws-kube-proxy
   enable_amazon_eks_kube_proxy = true
   amazon_eks_kube_proxy_config = {
     most_recent = true
@@ -46,7 +46,7 @@ module "eks_blueprints_kubernetes_addons" {
     ]
   }
 
-  #https://github.com/aws-ia/terraform-aws-eks-blueprints/blob/ac614b5a079055f9b18926597c55e8c6c9425263/docs/add-ons/kubernetes-dashboard.md
+  #https://github.com/aws-ia/terraform-aws-eks-blueprints/blob/v4.13.1/docs/add-ons/kubernetes-dashboard.md
   enable_kubernetes_dashboard      = true
   kubernetes_dashboard_helm_config = {
     namespace        = "default"
