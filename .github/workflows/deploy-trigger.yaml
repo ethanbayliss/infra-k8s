@@ -15,11 +15,7 @@ on:
         description: 'Environment to apply: '
         required: true
         default: 'dev'
-        type: choice
-        options:
-        - dev
-        - prod
-        - dev, prod
+        type: environment
 
 jobs: 
   terraform-deploy:
