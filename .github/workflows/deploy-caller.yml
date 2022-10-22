@@ -1,4 +1,4 @@
-name: Terraform Deploy
+name: Deploy Stack
 
 env:
   TERRAFORM_VERSION: latest
