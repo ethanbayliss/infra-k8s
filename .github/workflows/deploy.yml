@@ -7,15 +7,11 @@ on:
         description: 'Environment to apply: '
         required: true
         type: string
-      AWS_DEFAULT_REGION:
-        required: true
-        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
-
 
 jobs:
   terraform-deploy:
@@ -24,8 +20,8 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
-      TF_VAR_AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      TF_VAR_AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_env: ${{ inputs.environment }}
       TF_VAR_name: ${{ github.event.repository.name }}
 
@@ -40,7 +36,7 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-region: ${{ inputs.AWS_DEFAULT_REGION }}
+        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
     - name: Set tfstate_bucket env var
       run: echo "tfstate_bucket=terraform-$(aws sts get-caller-identity | jq -r '.Account')" >> $GITHUB_ENV
