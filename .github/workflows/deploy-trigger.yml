@@ -23,24 +23,24 @@ on:
 
 jobs:
   terraform-deploy-dev:
-    name: Terraform - Applying (prod)
+    name: Trigger Applying (dev)
     uses: ./.github/workflows/deploy.yml
 
     with:
       environment: dev
       AWS_DEFAULT_REGION: ap-southeast-2
-    # secrets: 
-    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    secrets: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  terraform-deploy-prod:
-    name: Terraform - Applying (prod)
-    uses: ./.github/workflows/deploy.yml
-    needs: terraform-deploy-dev
+  # terraform-deploy-prod:
+  #   name: Trigger Applying (prod)
+  #   uses: ./.github/workflows/deploy.yml
+  #   needs: terraform-deploy-dev
 
-    with:
-      environment: dev
-      AWS_DEFAULT_REGION: ap-southeast-2
-    # secrets: 
-    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #   with:
+  #     environment: dev
+  #     AWS_DEFAULT_REGION: ap-southeast-2
+  #   # secrets: 
+  #   #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #   #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
