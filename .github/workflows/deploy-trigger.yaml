@@ -1,4 +1,4 @@
-name: Terraform Deployz
+name: Terraform Deploy
 
 env:
   TERRAFORM_VERSION: latest
@@ -16,6 +16,9 @@ on:
         required: true
         type: environment
         default: dev
+        options:
+        - dev
+        - prod
 
 jobs: 
   terraform-deploy:
