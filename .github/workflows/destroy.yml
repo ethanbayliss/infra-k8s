@@ -18,7 +18,7 @@ on:
         required: true
 
 jobs:
-  terraform-deploy:
+  terraform-destroy:
     runs-on: ubuntu-latest
     name: Terraform - Applying (${{ inputs.environment }})
     env:
