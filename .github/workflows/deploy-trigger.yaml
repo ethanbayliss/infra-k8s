@@ -35,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: 
-        environment: ${{ inputs.environment }}
+        environment: [ "${{ inputs.environment }}" ]
 
     concurrency: 
       group: ${{ matrix.environment }}
