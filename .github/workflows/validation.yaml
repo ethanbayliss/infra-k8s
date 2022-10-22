@@ -5,6 +5,8 @@ env:
 
 on:
   pull_request:
+    paths:
+      - '**.tf'
 
 permissions:
   contents: read
