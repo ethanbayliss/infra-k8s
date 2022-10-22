@@ -20,7 +20,11 @@ jobs:
     environment: ${{ matrix.environment }}
     strategy:
       matrix: 
-        environment: [dev, prod]
+        environment: 
+          dev:
+            continue-on-error: true
+          prod:
+            continue-on-error: true
     concurrency: 
       group: ${{ matrix.environment }}
       cancel-in-progress: false
