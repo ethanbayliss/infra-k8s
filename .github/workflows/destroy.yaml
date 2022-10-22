@@ -52,7 +52,7 @@ jobs:
           -backend-config "bucket=$tfstate_bucket" \
           -backend-config "key=${{ github.event.repository.name }}"
 
-    - name: Terraform Apply
+    - name: Terraform Destroy
       id: apply
       run: terraform destroy -auto-approve
     
