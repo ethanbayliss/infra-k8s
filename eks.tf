@@ -1,7 +1,7 @@
 locals {
   name = "django-for-impatient"
   tags = {
-    Environment = var.environment
+    Environment = var.env
     DeployedBy  = "Terraform"
     GithubRepo = "infra-k8s"
     GithubOrg  = "ethanbayliss"
