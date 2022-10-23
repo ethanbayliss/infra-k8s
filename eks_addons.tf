@@ -60,5 +60,5 @@ module "eks_blueprints_kubernetes_addons" {
 
   tags = local.tags
 
-  depends_on = module.eks_blueprints.fargate_profiles[*].eks_fargate_profile_arn
+  depends_on = [module.eks_blueprints]
 }
