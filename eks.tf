@@ -1,5 +1,5 @@
 locals {
-  name = "django-for-impatient"
+  name = "k8s"
   tags = {
     Environment = var.env
     DeployedBy  = "Terraform"
