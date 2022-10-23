@@ -1,12 +1,3 @@
-resource "time_sleep" "dataplane" {
-  create_duration = "30s"
-
-  triggers = {
-    fargate_profiles = module.eks_blueprints.fargate_profiles.* # this waits for the data plane to be ready
-    eks_cluster_id   = module.eks_blueprints.eks_cluster_id     # this ties it to downstream resources
-  }
-}
-
 module "eks_blueprints_kubernetes_addons" {
   source = "git::https://github.com/aws-ia/terraform-aws-eks-blueprints.git//modules/kubernetes-addons?ref=v4.13.1"
 
@@ -68,4 +59,8 @@ module "eks_blueprints_kubernetes_addons" {
   }
 
   tags = local.tags
+
+  depends_on = [
+    module.eks_blueprints.fargate_profiles.*.eks_fargate_profile_arn
+  ]
 }
