@@ -1,17 +1,16 @@
 locals {
-  name = "k8s"
   tags = {
     Environment = var.env
     DeployedBy  = "Terraform"
-    GithubRepo = "infra-k8s"
-    GithubOrg  = "ethanbayliss"
+    GithubRepo  = "infra-k8s"
+    GithubOrg   = "ethanbayliss"
   }
 }
 
 module "eks_blueprints" {
   source = "git::https://github.com/aws-ia/terraform-aws-eks-blueprints.git?ref=v4.13.1"
 
-  cluster_name    = local.name
+  cluster_name    = var.name
   cluster_version = var.cluster_version
 
   vpc_id             = module.vpc.vpc_id
