@@ -43,6 +43,10 @@ jobs:
       with:
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
+    - name: Configure Kubectl Credentials
+      run: aws eks update-kubeconfig --name ${{ github.event.repository.name }}
+      continue-on-error: true
+
     - name: Set tfstate_bucket env var
       run: echo "tfstate_bucket=terraform-$(aws sts get-caller-identity | jq -r '.Account')" >> $GITHUB_ENV
 
