@@ -10,6 +10,15 @@
 
 	// Configure tool-specific properties.
 	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode-remote.remote-containers",
+				"GitHub.codespaces",
+				"TTOOWA.in-your-face-incredible",
+				"wwm.better-align",
+				"hashicorp.terraform"
+			]
+		}
 	},
 
 	"remoteUser": "vscode",
