@@ -57,9 +57,18 @@ jobs:
       id: init
       run: >
         terraform init \
+          -upgrade \
           -backend-config "region=$TF_VAR_AWS_DEFAULT_REGION" \
           -backend-config "bucket=$tfstate_bucket" \
           -backend-config "key=${{ github.event.repository.name }}"
+    
+    - name: Commit lock file
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@users.noreply.github.com'
+        git add terraform.lock.hcl
+        git commit -m "Persisting lock file"
+        git push
 
     - name: Terraform Apply
       id: apply

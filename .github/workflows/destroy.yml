@@ -57,9 +57,11 @@ jobs:
       id: init
       run: >
         terraform init \
+          -upgrade \
           -backend-config "region=$TF_VAR_AWS_DEFAULT_REGION" \
           -backend-config "bucket=$tfstate_bucket" \
           -backend-config "key=${{ github.event.repository.name }}"
+      continue-on-error: true
 
     - name: Terraform Destroy
       id: apply
