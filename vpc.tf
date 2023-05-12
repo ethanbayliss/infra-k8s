@@ -3,14 +3,14 @@ module "vpc" {
   version = "~> 3.19.0"
 
   name = var.name
-  cidr = "10.0.0.0/13"
+  cidr = "10.0.0.0/16"
 
   azs              = ["${var.AWS_DEFAULT_REGION}a", "${var.AWS_DEFAULT_REGION}b", "${var.AWS_DEFAULT_REGION}c"]
-  private_subnets  = ["10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
-  public_subnets   = ["10.1.16.0/20", "10.1.32.0/20", "10.1.48.0/20"]
-  database_subnets = ["10.2.16.0/20", "10.2.32.0/20", "10.2.48.0/20"]
+  private_subnets  = ["10.0.0.0/20", "10.0.16.0/20", "10.0.32.0/20"]
+  public_subnets   = ["10.0.64.0/20", "10.0.80.0/20", "10.0.96.0/20"]
+  database_subnets = ["10.0.128.0/20", "10.0.144.0/20", "10.0.160.0/20"]
 
-  enable_nat_gateway   = true
+  enable_nat_0teway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
   enable_dns_support   = true
