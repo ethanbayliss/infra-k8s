@@ -1,14 +1,14 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.0"
+  version = "~> 3.19.0"
 
   name = var.name
-  cidr = "10.0.0.0/16"
+  cidr = "10.0.0.0/13"
 
   azs              = ["${var.AWS_DEFAULT_REGION}a", "${var.AWS_DEFAULT_REGION}b", "${var.AWS_DEFAULT_REGION}c"]
-  private_subnets  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets   = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-  database_subnets = ["10.0.7.0/24", "10.0.8.0/24", "10.0.9.0/24"]
+  private_subnets  = ["10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
+  public_subnets   = ["10.1.16.0/20", "10.1.32.0/20", "10.1.48.0/20"]
+  database_subnets = ["10.2.16.0/20", "10.2.32.0/20", "10.2.48.0/20"]
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
