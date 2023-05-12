@@ -51,7 +51,7 @@ delete_service_account: auth_to_member_account
 	aws iam delete-user --user-name "service.$(current_dir).deployer" 2>/dev/null;
 
 make_backend_bucket: auth_to_member_account
-	@aws s3api create-bucket --bucket "terraform-$$(aws sts get-caller-identity | jq -r '.Account')" --region ap-southeast-2
+	@aws s3api create-bucket --bucket "terraform-$$(aws sts get-caller-identity | jq -r '.Account')" --create-bucket-configuration LocationConstraint=ap-southeast-2
 
 done_dev: upload_access_keys_dev make_backend_bucket 
 	@echo "Done"
