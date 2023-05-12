@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "github.codespaces",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "hashicorp.terraform",
+    "ms-vscode-remote.remote-containers",
+    "github.vscode-github-actions",
+    "amazonwebservices.aws-toolkit-vscode"
+  ]
+}
