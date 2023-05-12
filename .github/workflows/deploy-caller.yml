@@ -2,6 +2,8 @@ name: Deploy Stack
 
 env:
   TERRAFORM_VERSION: latest
+  AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+  TF_VAR_AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
 
 on:
   push:
@@ -23,29 +25,27 @@ on:
 
 jobs:
   terraform-deploy-dev:
-    if: inputs.environment == 'dev' || inputs.environment == 'all' || inputs.environment == ''
-
     name: Trigger Applying (dev)
     uses: ./.github/workflows/deploy.yml
+
+    if: inputs.environment == 'dev' || inputs.environment == 'all' || inputs.environment == ''
 
     with:
       environment: dev
     secrets: 
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_admin_role_arn: ${{ secrets.TF_VAR_ADMIN_ROLE_ARN }}
 
   terraform-deploy-prod:
-    if: inputs.environment == 'prod' || inputs.environment == 'all'
-
     name: Trigger Applying (prod)
     uses: ./.github/workflows/deploy.yml
+
+    if: inputs.environment == 'prod' || inputs.environment == 'all'
 
     with:
       environment: prod
     secrets: 
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       TF_VAR_admin_role_arn: ${{ secrets.TF_VAR_ADMIN_ROLE_ARN }}
