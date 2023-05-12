@@ -8,7 +8,7 @@ locals {
 }
 
 module "eks_blueprints" {
-  source = "git::https://github.com/aws-ia/terraform-aws-eks-blueprints.git?ref=v4.13.1"
+  source = "git::https://github.com/aws-ia/terraform-aws-eks-blueprints.git?ref=v4.31.0"
 
   cluster_name    = var.name
   cluster_version = var.cluster_version
