@@ -13,5 +13,5 @@ variable "admin_role_arn" {
 }
 
 variable "cluster_version" {
-  default = "1.26"
+  default = "1.24"
 }
